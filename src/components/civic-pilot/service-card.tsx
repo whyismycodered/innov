@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { Card, CardContent } from '@/components/ui/card';
 import type { ReactNode } from 'react';
 
 type ServiceCardProps = {
@@ -7,22 +6,35 @@ type ServiceCardProps = {
   title: string;
   description: string;
   href: string;
+  target?: string;
+  rel?: string;
 };
 
 export default function ServiceCard({ icon, title, description, href }: ServiceCardProps) {
+  const gradientClasses = 'bg-gradient-to-r from-blue-500 to-pink-300';
+  
   return (
-    <Link href={href} className="group block text-center">
-      <Card className="h-full rounded-2xl shadow-lg hover:shadow-primary/20 hover:scale-105 transition-all duration-300 ease-in-out p-8 bg-card">
-        <CardContent className="flex flex-col items-center justify-center gap-4 p-0">
-          <div className="bg-secondary p-5 rounded-full">
+    <Link href={href} className="group block">
+      {/* Outer wrapper with gradient border */}
+      <div className={`p-[1px] rounded-full ${gradientClasses} shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out`}>
+        {/* Inner content with white background */}
+        <div className="flex items-center gap-3 bg-white rounded-full px-6 py-4 hover:scale-105 transition-transform duration-300 ease-in-out">
+          {/* Icon */}
+          <div className="bg-gradient-to-r from-blue-300 via-blue-300 to-pink-300 text-white p-2 rounded-full flex-shrink-0">
             {icon}
           </div>
-          <div className="space-y-1">
-            <h3 className="font-headline text-2xl font-bold text-card-foreground">{title}</h3>
-            <p className="text-muted-foreground">{description}</p>
+          
+          {/* Text */}
+          <div className="flex flex-col items-start text-left">
+            <h3 className="font-bold text-sm text-blue-400 uppercase tracking-wide">
+              {title}
+            </h3>
+            <p className="text-blue-400 text-xs">
+              {description}
+            </p>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </Link>
   );
 }

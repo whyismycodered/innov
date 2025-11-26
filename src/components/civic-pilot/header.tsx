@@ -5,6 +5,8 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
 import { useState } from 'react';
+import Image from 'next/image';
+import logo from '../../../public/gabayan.png';
 
 const navLinks = [
   { name: 'Home', href: '/' },
@@ -20,9 +22,13 @@ export default function Header() {
     <header className="bg-card border-b sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          <Link href="/" className="text-2xl font-bold font-headline text-foreground">
-            CivicPilot
+          <div className="flex items-center gap-3">
+          <Image src={logo} alt="Logo" width={30} height={30} />
+          <Link href="/" className="text-2xl font-bold font-headline text-foreground bg-gradient-to-r from-blue-600 via-blue-500 to-pink-400 inline-block text-transparent bg-clip-text">
+            GabAian
           </Link>
+          </div>
+         
           <nav className="hidden md:flex gap-8 items-center">
             {navLinks.map((link) => (
               <Link key={link.name} href={link.href} className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">

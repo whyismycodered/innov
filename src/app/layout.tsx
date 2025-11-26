@@ -2,10 +2,12 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
+import logo from '../../public/gabayan.png';  // Import the image
 
 export const metadata: Metadata = {
-  title: 'CivicPilot',
-  description: 'Design system and UI components for CivicPilot',
+  title: 'GabAian',
+  description: 'Your ultimate Gab-AI companion for seamless government services.',
+  icons: logo.src,  // Use .src to get the path
 };
 
 export default function RootLayout({
@@ -23,7 +25,7 @@ export default function RootLayout({
       <body className={cn("font-body antialiased")}>
         {children}
         <Toaster />
-        </body>
+      </body>
     </html>
   );
 }

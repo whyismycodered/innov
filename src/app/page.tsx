@@ -1,65 +1,222 @@
+'use client';
+
 import Header from '@/components/civic-pilot/header';
 import Footer from '@/components/civic-pilot/footer';
 import ServiceCard from '@/components/civic-pilot/service-card';
 import { Button } from '@/components/ui/button';
-import { BookCopy, Shield, HeartPulse } from 'lucide-react';
+import { BookCopy, Shield, HeartPulse, Phone, Sparkles, Star, Circle, Zap } from 'lucide-react';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
-  return (
-    <div className="flex flex-col min-h-dvh bg-background">
-      <Header />
-      <main className="flex-grow">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center py-20 md:py-32">
-          {/* Hero */}
-          <section className="mb-20 md:mb-32">
-            <h1 className="text-4xl md:text-6xl font-headline font-bold text-foreground mb-6 !leading-tight">
-              CivicPilot — Design System for Public Services
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-              A UI kit and component library for government service experiences.
-            </p>
-          </section>
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isShaking, setIsShaking] = useState(false);
 
-          {/* Service Cards */}
-          <section id="quick-links" className="mb-20 md:mb-32 max-w-5xl mx-auto">
-            <h2 className="text-3xl font-headline font-bold mb-12">Quick Links</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <ServiceCard 
-                icon={<BookCopy className="w-10 h-10 text-primary" />}
-                title="DFA"
-                description="Passport Services"
-                href="/services/dfa"
-              />
-              <ServiceCard 
-                icon={<Shield className="w-10 h-10 text-primary" />}
-                title="SSS"
-                description="Social Security"
-                href="/services/sss"
-              />
-              <ServiceCard 
-                icon={<HeartPulse className="w-10 h-10 text-primary" />}
-                title="PhilHealth"
-                description="Health Insurance"
-                href="/services/philhealth"
+  // Trigger shake animation every 5 seconds
+  useEffect(() => {
+    const shakeInterval = setInterval(() => {
+      if (!isExpanded) {
+        setIsShaking(true);
+        setTimeout(() => setIsShaking(false), 600);
+      }
+    }, 5000);
+
+    return () => clearInterval(shakeInterval);
+  }, [isExpanded]);
+
+  // Generate random positioned icons with MORE in the center area
+  const backgroundIcons = [
+    // Original outer icons
+    { Icon: Sparkles, top: '10%', left: '15%', delay: '0s', size: 32 },
+    { Icon: Star, top: '20%', left: '85%', delay: '1s', size: 28 },
+    { Icon: Circle, top: '30%', left: '10%', delay: '2s', size: 24 },
+    { Icon: Sparkles, top: '60%', left: '20%', delay: '1.5s', size: 30 },
+    { Icon: Star, top: '70%', left: '80%', delay: '0.8s', size: 26 },
+    { Icon: Circle, top: '80%', left: '12%', delay: '2.2s', size: 28 },
+    { Icon: Sparkles, top: '15%', left: '70%', delay: '1.2s', size: 32 },
+    { Icon: Sparkles, top: '50%', left: '5%', delay: '1.8s', size: 34 },
+    { Icon: Star, top: '85%', left: '88%', delay: '0.3s', size: 30 },
+    { Icon: Circle, top: '90%', left: '50%', delay: '1.4s', size: 30 },
+    
+    // NEW CENTER AREA ICONS (inside the red circle area)
+    { Icon: Star, top: '18%', left: '40%', delay: '1.6s', size: 26 },
+    { Icon: Circle, top: '15%', left: '55%', delay: '0.9s', size: 24 },
+    { Icon: Star, top: '25%', left: '68%', delay: '1.3s', size: 30 },
+    { Icon: Star, top: '32%', left: '30%', delay: '2.1s', size: 32 },
+    { Icon: Star, top: '35%', left: '45%', delay: '0.7s', size: 28 },
+    { Icon: Circle, top: '38%', left: '60%', delay: '1.9s', size: 26 },
+    { Icon: Zap, top: '28%', left: '75%', delay: '0.2s', size: 34 },
+    { Icon: Sparkles, top: '42%', left: '35%', delay: '1.7s', size: 30 },
+    { Icon: Star, top: '45%', left: '50%', delay: '0.5s', size: 32 },
+    { Icon: Circle, top: '48%', left: '65%', delay: '2.3s', size: 28 },
+    { Icon: Zap, top: '40%', left: '22%', delay: '1.1s', size: 30 },
+  ];
+
+  return (
+    <div className="relative flex flex-col min-h-dvh bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 overflow-hidden">
+      {/* Animated Background Icons */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {backgroundIcons.map((item, index) => {
+          const IconComponent = item.Icon;
+          return (
+            <div
+              key={index}
+              className="absolute animate-float"
+              style={{
+                top: item.top,
+                left: item.left,
+                animationDelay: item.delay,
+              }}
+            >
+              <IconComponent 
+                size={item.size}
+                className="text-blue-300/60"
               />
             </div>
-          </section>
+          );
+        })}
+      </div>
 
-          {/* CTA */}
-          <section>
-            <Link href="#quick-links" passHref>
-              <Button 
-                size="lg" 
-                className="text-white font-bold rounded-full px-12 h-16 text-xl bg-gradient-to-r from-[#94B3FD] to-[#B894FD] transition-all duration-300 ease-in-out hover:shadow-[0_0_25px_#B894FD] hover:scale-105"
-              >
-                Explore
-              </Button>
-            </Link>
-          </section>
-        </div>
-      </main>
-      <Footer />
+      {/* Content */}
+      <div className="relative z-10">
+        <Header />
+        <main className="flex-grow">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center py-20 md:py-32">
+            {/* Hero */}
+            <section className="mb-10 md:mb-10">
+              <h1 className="text-4xl md:text-6xl font-headline font-bold text-foreground mb-6 !leading-tight bg-gradient-to-r from-blue-600 via-blue-500 to-pink-400 inline-block text-transparent bg-clip-text">
+                Kamusta, Ano Ang Maitutulong Ko?
+              </h1>
+              <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+                Ang ultimate Gab-AI mo sa pag-navigate ng government services.
+              </p>
+            </section>
+
+            {/* CTA */}
+            <section className="mb-16">
+              <div className="flex justify-center">
+                <Button
+                  size="lg"
+                  onMouseEnter={() => setIsExpanded(true)}
+                  onMouseLeave={() => setIsExpanded(false)}
+                  onClick={() => {
+                    console.log('Voice AI activated');
+                  }}
+                  style={isShaking ? {
+                    animation: 'shake 0.6s ease-in-out'
+                  } : undefined}
+                  className={`
+                    relative overflow-hidden
+                    text-white font-bold rounded-full text-xl 
+                    bg-gradient-to-r from-[#94B3FD] to-[#B894FD] 
+                    transition-all duration-500 ease-out
+                    hover:shadow-[0_0_25px_#B894FD] hover:scale-105
+                    ${isExpanded ? 'w-1/3' : 'w-40 px-0'}
+                    h-40
+                  `}
+                >
+                  <div className="flex items-center justify-center gap-2 whitespace-nowrap">
+                    <Phone
+                      className={`
+                        !w-10 !h-10 text-white ml-2 flex-shrink-0
+                        transition-transform duration-500
+                        ${isExpanded ? 'rotate-12' : 'rotate-0'}
+                      `} 
+                    />
+                    <span 
+                      className={`
+                        transition-all duration-500 font-semibold text-4xl
+                        ${isExpanded ? 'opacity-100 w-auto ml-4' : 'opacity-0 w-0'}
+                      `}
+                    >
+                      Kausapin Ako!
+                    </span>
+                  </div>
+                </Button>
+              </div>
+            </section>
+
+            {/* Service Cards */}
+            <section id="quick-links" className="mt-20 md:mb-20 max-w-5xl mx-auto">
+              <h2 className="text-3xl font-headline font-bold mb-8 text-blue-400">Government Services</h2>
+              <div className="grid grid-rows-1 md:grid-rows-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <ServiceCard 
+                    icon={<BookCopy className="w-6 h-6 text-white" />}
+                    title="PhilSys ID"
+                    description="National ID Registration"
+                    href="/services/dfa"
+                  />
+                  <ServiceCard 
+                    icon={<Shield className="w-6 h-6 text-white" />}
+                    title="Nbi Clearance"
+                    description="Police Clearance"
+                    href="https://clearance.nbi.gov.ph/dfa"
+                  />
+                  <ServiceCard 
+                    icon={<HeartPulse className="w-6 h-6 text-white" />}
+                    title="PhilHealth"
+                    description="Health Insurance"
+                    href="/services/philhealth"
+                  />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <ServiceCard 
+                    icon={<BookCopy className="w-6 h-6 text-white" />}
+                    title="Placeholder"
+                    description="National ID Registration"
+                    href="/services/dfa"
+                  />
+                  <ServiceCard 
+                    icon={<Shield className="w-6 h-6 text-white" />}
+                    title="Placeholder"
+                    description="Social Security"
+                    href="/services/sss"
+                  />
+                  <ServiceCard 
+                    icon={<HeartPulse className="w-6 h-6 text-white" />}
+                    title="Placeholder"
+                    description="Health Insurance"
+                    href="/services/philhealth"
+                  />
+                </div>
+              </div>
+            </section>
+          </div>
+        </main>
+        
+        <Footer />
+      </div>
+
+      {/* Global styles */}
+      <style jsx global>{`
+        @keyframes shake {
+          0%, 100% { 
+            transform: translateX(0) rotate(0deg); 
+          }
+          10%, 30%, 50%, 70%, 90% { 
+            transform: translateX(-10px) rotate(-5deg); 
+          }
+          20%, 40%, 60%, 80% { 
+            transform: translateX(10px) rotate(5deg); 
+          }
+        }
+
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px) rotate(0deg);
+            opacity: 0.3;
+          }
+          50% {
+            transform: translateY(-25px) rotate(180deg);
+            opacity: 0.5;
+          }
+        }
+
+        .animate-float {
+          animation: float 8s ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 }
