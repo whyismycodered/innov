@@ -14,15 +14,15 @@ export default function Home() {
           {/* Hero */}
           <section className="mb-20 md:mb-32">
             <h1 className="text-4xl md:text-6xl font-headline font-bold text-foreground mb-6 !leading-tight">
-              Your AI Caseworker for Philippine Government Services
+              CivicPilot — Design System for Public Services
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-              Simplifying bureaucracy for everyone. Just ask, and we guide you.
+              A UI kit and component library for government service experiences.
             </p>
           </section>
 
           {/* Service Cards */}
-          <section className="mb-20 md:mb-32 max-w-5xl mx-auto">
+          <section id="quick-links" className="mb-20 md:mb-32 max-w-5xl mx-auto">
             <h2 className="text-3xl font-headline font-bold mb-12">Quick Links</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <ServiceCard 
@@ -48,12 +48,12 @@ export default function Home() {
 
           {/* CTA */}
           <section>
-            <Link href="/caseworker" passHref>
+            <Link href="#quick-links" passHref>
               <Button 
                 size="lg" 
                 className="text-white font-bold rounded-full px-12 h-16 text-xl bg-gradient-to-r from-[#94B3FD] to-[#B894FD] transition-all duration-300 ease-in-out hover:shadow-[0_0_25px_#B894FD] hover:scale-105"
               >
-                Start
+                Explore
               </Button>
             </Link>
           </section>

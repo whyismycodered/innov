@@ -4,8 +4,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: 'CivicPilot AI',
-  description: 'Your AI Caseworker for Philippine Government Services',
+  title: 'CivicPilot',
+  description: 'Design system and UI components for CivicPilot',
 };
 
 export default function RootLayout({
