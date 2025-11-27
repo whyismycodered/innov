@@ -11,7 +11,7 @@ type ServiceCardProps = {
 };
 
 export default function ServiceCard({ icon, title, description, href }: ServiceCardProps) {
-  const gradientClasses = 'bg-gradient-to-r from-blue-500 to-pink-300';
+  const gradientClasses = 'bg-gradient-to-r from-[#009EFF] to-[#66c5ff]';
   
   return (
     <Link href={href} className="group block">
@@ -20,7 +20,7 @@ export default function ServiceCard({ icon, title, description, href }: ServiceC
         {/* Inner content with white background */}
         <div className="flex items-center gap-3 bg-white rounded-full px-6 py-4 hover:scale-105 transition-transform duration-300 ease-in-out">
           {/* Icon */}
-          <div className="bg-gradient-to-r from-blue-300 via-blue-300 to-pink-300 text-white p-2 rounded-full flex-shrink-0">
+          <div className="bg-gradient-to-r from-[#009EFF] to-[#66c5ff] text-white p-2 rounded-full flex-shrink-0">
             {icon}
           </div>
           

@@ -24,8 +24,8 @@ export default function Header() {
         <div className="flex justify-between items-center h-20">
           <div className="flex items-center gap-3">
           <Image src={logo} alt="Logo" width={30} height={30} />
-          <Link href="/" className="text-2xl font-bold font-headline text-foreground bg-gradient-to-r from-blue-600 via-blue-500 to-pink-400 inline-block text-transparent bg-clip-text">
-            GabAian
+          <Link href="/" className="text-2xl font-bold font-headline text-foreground bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-400 inline-block text-transparent bg-clip-text">
+            GabAIan
           </Link>
           </div>
          

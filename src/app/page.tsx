@@ -84,7 +84,7 @@ export default function Home() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center py-20 md:py-32">
             {/* Hero */}
             <section className="mb-10 md:mb-10">
-              <h1 className="text-4xl md:text-6xl font-headline font-bold text-foreground mb-6 !leading-tight bg-gradient-to-r from-blue-600 via-blue-500 to-pink-400 inline-block text-transparent bg-clip-text">
+              <h1 className="text-4xl md:text-6xl font-headline font-bold text-foreground mb-6 !leading-tight bg-gradient-to-r from-[#009EFF] via-[#005BF2] to-[#66c5ff] inline-block text-transparent bg-clip-text">
                 Kamusta, Ano Ang Maitutulong Ko?
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -108,9 +108,9 @@ export default function Home() {
                   className={`
                     relative overflow-hidden
                     text-white font-bold rounded-full text-xl 
-                    bg-gradient-to-r from-[#94B3FD] to-[#B894FD] 
+                    bg-gradient-to-r from-[#009EFF] to-[#99d8ff]
                     transition-all duration-500 ease-out
-                    hover:shadow-[0_0_25px_#B894FD] hover:scale-105
+                    hover:shadow-[0_0_20px_#009EFF] hover:scale-105
                     ${isExpanded ? 'w-1/3' : 'w-40 px-0'}
                     h-40
                   `}
