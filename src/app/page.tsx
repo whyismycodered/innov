@@ -1,5 +1,5 @@
 'use client';
-
+import AppBuilder from '@appbuilder/react';
 import Header from '@/components/civic-pilot/header';
 import Footer from '@/components/civic-pilot/footer';
 import ServiceCard from '@/components/civic-pilot/service-card';
@@ -7,10 +7,15 @@ import { Button } from '@/components/ui/button';
 import { BookCopy, Shield, HeartPulse, Phone, Sparkles, Star, Circle, Zap, User } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+
+
 
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
+  const router = useRouter();
 
   // Trigger shake animation every 5 seconds
   useEffect(() => {
@@ -54,6 +59,7 @@ export default function Home() {
 
   return (
     <div className="relative flex flex-col min-h-dvh bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 overflow-hidden">
+      <AppBuilder.View/>
       {/* Animated Background Icons */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {backgroundIcons.map((item, index) => {
@@ -100,7 +106,7 @@ export default function Home() {
                   onMouseEnter={() => setIsExpanded(true)}
                   onMouseLeave={() => setIsExpanded(false)}
                   onClick={() => {
-                    console.log('Voice AI activated');
+                    router.push('/video-call');
                   }}
                   style={isShaking ? {
                     animation: 'shake 0.6s ease-in-out'
