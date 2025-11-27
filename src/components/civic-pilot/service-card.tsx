@@ -6,15 +6,19 @@ type ServiceCardProps = {
   title: string;
   description: string;
   href: string;
-  target?: string;
-  rel?: string;
+  target?: string; // Made it optional with ?
 };
 
-export default function ServiceCard({ icon, title, description, href }: ServiceCardProps) {
+export default function ServiceCard({ icon, title, description, href, target }: ServiceCardProps) {
   const gradientClasses = 'bg-gradient-to-r from-[#009EFF] to-[#66c5ff]';
   
   return (
-    <Link href={href} className="group block">
+    <Link 
+      href={href} 
+      className="group block"
+      target={target} 
+      rel={target === "_blank" ? "noopener noreferrer" : undefined} 
+    >
       {/* Outer wrapper with gradient border */}
       <div className={`p-[1px] rounded-full ${gradientClasses} shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out`}>
         {/* Inner content with white background */}

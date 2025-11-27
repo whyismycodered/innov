@@ -2,12 +2,11 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
-import logo from '../../public/gabayan.png';  // Import the image
 
 export const metadata: Metadata = {
   title: 'GabAian',
   description: 'Your ultimate Gab-AI companion for seamless government services.',
-  icons: logo.src,  // Use .src to get the path
+  icons: './favicon.ico',
 };
 
 export default function RootLayout({

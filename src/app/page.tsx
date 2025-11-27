@@ -4,7 +4,7 @@ import Header from '@/components/civic-pilot/header';
 import Footer from '@/components/civic-pilot/footer';
 import ServiceCard from '@/components/civic-pilot/service-card';
 import { Button } from '@/components/ui/button';
-import { BookCopy, Shield, HeartPulse, Phone, Sparkles, Star, Circle, Zap } from 'lucide-react';
+import { BookCopy, Shield, HeartPulse, Phone, Sparkles, Star, Circle, Zap, User } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
@@ -142,42 +142,48 @@ export default function Home() {
               <div className="grid grid-rows-1 md:grid-rows-3 gap-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <ServiceCard 
-                    icon={<BookCopy className="w-6 h-6 text-white" />}
-                    title="PhilSys ID"
-                    description="National ID Registration"
-                    href="/services/dfa"
+                    icon={<User className="w-6 h-6 text-white" />}
+                    title="Tin"
+                    description="Tin ID Registration"
+                    href="https://www.bir.gov.ph/primary-registration/dfa"
+                    target="_blank"
                   />
                   <ServiceCard 
                     icon={<Shield className="w-6 h-6 text-white" />}
                     title="Nbi Clearance"
                     description="Police Clearance"
                     href="https://clearance.nbi.gov.ph/dfa"
+                    target="_blank"
                   />
                   <ServiceCard 
                     icon={<HeartPulse className="w-6 h-6 text-white" />}
                     title="PhilHealth"
                     description="Health Insurance"
-                    href="/services/philhealth"
+                    href="https://memberinquiry.philhealth.gov.ph/member/dfa"
+                    target="_blank"
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <ServiceCard 
                     icon={<BookCopy className="w-6 h-6 text-white" />}
-                    title="Placeholder"
-                    description="National ID Registration"
-                    href="/services/dfa"
+                    title="SSS"
+                    description="Social Security System"
+                    href="https://www.sss.gov.ph/dfa"
+                    target="_blank"
                   />
                   <ServiceCard 
                     icon={<Shield className="w-6 h-6 text-white" />}
-                    title="Placeholder"
-                    description="Social Security"
-                    href="/services/sss"
+                    title="PSA"
+                    description="Birth, Marriage, & Death Cetificate"
+                    href="https://psaonlineappointment.org/dfa"
+                    target="_blank"
                   />
                   <ServiceCard 
                     icon={<HeartPulse className="w-6 h-6 text-white" />}
-                    title="Placeholder"
-                    description="Health Insurance"
-                    href="/services/philhealth"
+                    title="DFA"
+                    description="Passport Application"
+                    href="https://passport.gov.ph/appointment/dfa"
+                    target="_blank"
                   />
                 </div>
               </div>
