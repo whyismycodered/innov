@@ -7,10 +7,12 @@ import { Button } from '@/components/ui/button';
 import { BookCopy, Shield, HeartPulse, Phone, Sparkles, Star, Circle, Zap } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
+  const router = useRouter();
 
   // Trigger shake animation every 5 seconds
   useEffect(() => {
@@ -100,7 +102,7 @@ export default function Home() {
                   onMouseEnter={() => setIsExpanded(true)}
                   onMouseLeave={() => setIsExpanded(false)}
                   onClick={() => {
-                    console.log('Voice AI activated');
+                    router.push('/video-call');
                   }}
                   style={isShaking ? {
                     animation: 'shake 0.6s ease-in-out'
