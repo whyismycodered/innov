@@ -1,228 +1,174 @@
 'use client';
 
-import Header from '@/components/civic-pilot/header';
-import Footer from '@/components/civic-pilot/footer';
-import ServiceCard from '@/components/civic-pilot/service-card';
-import { Button } from '@/components/ui/button';
-import { BookCopy, Shield, HeartPulse, Phone, Sparkles, Star, Circle, Zap, User } from 'lucide-react';
-import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
+import { Video, ShieldCheck, Globe, Phone, FileText, CheckCircle2, Users } from 'lucide-react';
+import Image from 'next/image';
+import logo from '../../public/gabayan.png';
 
-export default function Home() {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isShaking, setIsShaking] = useState(false);
+// Dynamic Import: Loads the AgentCall component only on the client side.
+// This prevents SSR errors because AgentCall handles all the heavy Agora SDK lifting.
+/*const AgentCall = dynamic(() => import('./AgentCall'), { 
+  ssr: false,
+  loading: () => (
+    <div className="flex flex-col items-center justify-center h-screen bg-slate-900 text-white">
+      <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+      <p>Initializing Secure Agent...</p>
+    </div>
+  )
+});
+*/
 
-  // Trigger shake animation every 5 seconds
-  useEffect(() => {
-    const shakeInterval = setInterval(() => {
-      if (!isExpanded) {
-        setIsShaking(true);
-        setTimeout(() => setIsShaking(false), 600);
-      }
-    }, 5000);
+// --- UI COMPONENTS ---
 
-    return () => clearInterval(shakeInterval);
-  }, [isExpanded]);
+const MainActionButton = ({ onClick, label, subLabel }: { onClick: () => void, label: string, subLabel: string }) => (
+  <button 
+    onClick={onClick}
+    className="group relative w-full md:w-auto flex flex-col items-center justify-center bg-gradient-to-r from-[#005BF2] via-[#005BF2] to-[#009EFF] hover:from-[#009EFF] hover:to-[#005BF2] transition-all duration-500 ease-out
+                    hover:shadow-[0_0_20px_#009EFF] text-white px-12 py-8 rounded-3xl shadow-2xl transition-all transform hover:scale-[1.02] active:scale-95 border-b-[1px] border-white"
+  >
+    <div className="flex items-center gap-4 mb-2">
+      <div className="bg-white/20 p-3 rounded-full">
+        <Video className="w-10 h-10 text-white fill-current" />
+      </div>
+      <span className="text-3xl md:text-4xl font-bold tracking-tight">{label}</span>
+    </div>
+    <span className="text-blue-100 text-lg md:text-xl font-medium tracking-wide opacity-90">{subLabel}</span>
+    <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-white/10 to-transparent pointer-events-none" />
+  </button>
+);
 
-  // Generate random positioned icons with MORE in the center area
-  const backgroundIcons = [
-    // Original outer icons
-    { Icon: Sparkles, top: '10%', left: '15%', delay: '0s', size: 32 },
-    { Icon: Star, top: '20%', left: '85%', delay: '1s', size: 28 },
-    { Icon: Circle, top: '30%', left: '10%', delay: '2s', size: 24 },
-    { Icon: Sparkles, top: '60%', left: '20%', delay: '1.5s', size: 30 },
-    { Icon: Star, top: '70%', left: '80%', delay: '0.8s', size: 26 },
-    { Icon: Circle, top: '80%', left: '12%', delay: '2.2s', size: 28 },
-    { Icon: Sparkles, top: '15%', left: '70%', delay: '1.2s', size: 32 },
-    { Icon: Sparkles, top: '50%', left: '5%', delay: '1.8s', size: 34 },
-    { Icon: Star, top: '85%', left: '88%', delay: '0.3s', size: 30 },
-    { Icon: Circle, top: '90%', left: '50%', delay: '1.4s', size: 30 },
-    
-    // NEW CENTER AREA ICONS (inside the red circle area)
-    { Icon: Star, top: '18%', left: '40%', delay: '1.6s', size: 26 },
-    { Icon: Circle, top: '15%', left: '55%', delay: '0.9s', size: 24 },
-    { Icon: Star, top: '25%', left: '68%', delay: '1.3s', size: 30 },
-    { Icon: Star, top: '32%', left: '30%', delay: '2.1s', size: 32 },
-    { Icon: Star, top: '35%', left: '45%', delay: '0.7s', size: 28 },
-    { Icon: Circle, top: '38%', left: '60%', delay: '1.9s', size: 26 },
-    { Icon: Zap, top: '28%', left: '75%', delay: '0.2s', size: 34 },
-    { Icon: Sparkles, top: '42%', left: '35%', delay: '1.7s', size: 30 },
-    { Icon: Star, top: '45%', left: '50%', delay: '0.5s', size: 32 },
-    { Icon: Circle, top: '48%', left: '65%', delay: '2.3s', size: 28 },
-    { Icon: Zap, top: '40%', left: '22%', delay: '1.1s', size: 30 },
-  ];
+const TrustBadge = ({ icon: Icon, text }: { icon: any, text: string }) => (
+  <div className="flex items-center gap-2 bg-blue-50 text-blue-900 px-4 py-2 rounded-full font-bold text-sm border border-blue-100">
+    <Icon className="w-4 h-4" />
+    {text}
+  </div>
+);
 
+const FeatureCard = ({ icon: Icon, title, desc, delay }: { icon: any, title: string, desc: string, delay: string }) => (
+  <div className={`bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-start gap-4 hover:shadow-md transition-shadow duration-300 ${delay}`}>
+    <div className="bg-blue-50 p-4 rounded-xl shrink-0">
+      <Icon className="w-8 h-8 text-blue-600" />
+    </div>
+    <div>
+      <h3 className="text-xl font-bold text-slate-800 mb-2">{title}</h3>
+      <p className="text-slate-600 leading-relaxed text-sm">{desc}</p>
+    </div>
+  </div>
+);
+
+// --- MAIN PAGE ---
+
+export default function CivicPilotHome() {
+  const [isStarted, setIsStarted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleStart = () => {
+    setIsLoading(true);
+    // Simulate a brief connection delay for UX
+    setTimeout(() => {
+      setIsStarted(true);
+      setIsLoading(false);
+    }, 1000);
+  };
+
+  /*
+  // 1. Loading State
+  if (isLoading) {
+     return (
+      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center text-slate-900 px-4">
+        <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-6"></div>
+        <h2 className="text-2xl font-bold mb-2">Connecting to Agent...</h2>
+        <p className="text-slate-500">Kumokonekta sa tulong...</p>
+      </div>
+    );
+  }
+
+  // 2. Active Call State
+  // We render the AgentCall component which contains its own Agora Provider
+  if (isStarted) {
+    return <AgentCall onEnd={() => setIsStarted(false)} />;
+  }
+    */
+
+  // 3. Landing Page State
   return (
-    <div className="relative flex flex-col min-h-dvh bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 overflow-hidden">
-      {/* Animated Background Icons */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {backgroundIcons.map((item, index) => {
-          const IconComponent = item.Icon;
-          return (
-            <div
-              key={index}
-              className="absolute animate-float"
-              style={{
-                top: item.top,
-                left: item.left,
-                animationDelay: item.delay,
-              }}
-            >
-              <IconComponent 
-                size={item.size}
-                className="text-blue-300/60"
-              />
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-blue-100">
+      <header className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Image src={logo} alt="Logo" width={40} height={40} />
+            <div className="flex flex-col">
+              <h1 className="text-2xl font-extrabold bg-gradient-to-r from-[#009EFF] via-[#005BF2] to-[#66c5ff] inline-block text-transparent bg-clip-text">GabAian</h1>
+              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">PH Digital Assistance</p>
             </div>
-          );
-        })}
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10">
-        <Header />
-        <main className="flex-grow">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center py-20 md:py-32">
-            {/* Hero */}
-            <section className="mb-10 md:mb-10">
-              <h1 className="text-4xl md:text-6xl font-headline font-bold text-foreground mb-6 !leading-tight bg-gradient-to-r from-[#009EFF] via-[#005BF2] to-[#66c5ff] inline-block text-transparent bg-clip-text">
-                Kamusta, Ano Ang Maitutulong Ko?
-              </h1>
-              <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-                Ang ultimate Gab-AI mo sa pag-navigate ng government services.
-              </p>
-            </section>
-
-            {/* CTA */}
-            <section className="mb-16">
-              <div className="flex justify-center">
-                <Button
-                  size="lg"
-                  onMouseEnter={() => setIsExpanded(true)}
-                  onMouseLeave={() => setIsExpanded(false)}
-                  onClick={() => {
-                    console.log('Voice AI activated');
-                  }}
-                  style={isShaking ? {
-                    animation: 'shake 0.6s ease-in-out'
-                  } : undefined}
-                  className={`
-                    relative overflow-hidden
-                    text-white font-bold rounded-full text-xl 
-                    bg-gradient-to-r from-[#009EFF] to-[#99d8ff]
-                    transition-all duration-500 ease-out
-                    hover:shadow-[0_0_20px_#009EFF] hover:scale-105
-                    ${isExpanded ? 'w-1/3' : 'w-40 px-0'}
-                    h-40
-                  `}
-                >
-                  <div className="flex items-center justify-center gap-2 whitespace-nowrap">
-                    <Phone
-                      className={`
-                        !w-10 !h-10 text-white ml-2 flex-shrink-0
-                        transition-transform duration-500
-                        ${isExpanded ? 'rotate-12' : 'rotate-0'}
-                      `} 
-                    />
-                    <span 
-                      className={`
-                        transition-all duration-500 font-semibold text-4xl
-                        ${isExpanded ? 'opacity-100 w-auto ml-4' : 'opacity-0 w-0'}
-                      `}
-                    >
-                      Kausapin Ako!
-                    </span>
-                  </div>
-                </Button>
-              </div>
-            </section>
-
-            {/* Service Cards */}
-            <section id="quick-links" className="mt-20 md:mb-20 max-w-5xl mx-auto">
-              <h2 className="text-3xl font-headline font-bold mb-8 text-blue-400">Government Services</h2>
-              <div className="grid grid-rows-1 md:grid-rows-3 gap-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <ServiceCard 
-                    icon={<User className="w-6 h-6 text-white" />}
-                    title="Tin"
-                    description="Tin ID Registration"
-                    href="https://www.bir.gov.ph/primary-registration/dfa"
-                    target="_blank"
-                  />
-                  <ServiceCard 
-                    icon={<Shield className="w-6 h-6 text-white" />}
-                    title="Nbi Clearance"
-                    description="Police Clearance"
-                    href="https://clearance.nbi.gov.ph/dfa"
-                    target="_blank"
-                  />
-                  <ServiceCard 
-                    icon={<HeartPulse className="w-6 h-6 text-white" />}
-                    title="PhilHealth"
-                    description="Health Insurance"
-                    href="https://memberinquiry.philhealth.gov.ph/member/dfa"
-                    target="_blank"
-                  />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <ServiceCard 
-                    icon={<BookCopy className="w-6 h-6 text-white" />}
-                    title="SSS"
-                    description="Social Security System"
-                    href="https://www.sss.gov.ph/dfa"
-                    target="_blank"
-                  />
-                  <ServiceCard 
-                    icon={<Shield className="w-6 h-6 text-white" />}
-                    title="PSA"
-                    description="Birth, Marriage, & Death Cetificate"
-                    href="https://psaonlineappointment.org/dfa"
-                    target="_blank"
-                  />
-                  <ServiceCard 
-                    icon={<HeartPulse className="w-6 h-6 text-white" />}
-                    title="DFA"
-                    description="Passport Application"
-                    href="https://passport.gov.ph/appointment/dfa"
-                    target="_blank"
-                  />
-                </div>
-              </div>
-            </section>
           </div>
-        </main>
-        
-        <Footer />
-      </div>
+          <div className="flex items-center gap-2 bg-slate-100 px-4 py-2 rounded-full border border-slate-200">
+            <Globe className="w-4 h-4 text-blue-600" />
+            <span className="text-sm font-bold text-slate-700">Taglish Mode</span>
+          </div>
+        </div>
+      </header>
 
-      {/* Global styles */}
-      <style jsx global>{`
-        @keyframes shake {
-          0%, 100% { 
-            transform: translateX(0) rotate(0deg); 
-          }
-          10%, 30%, 50%, 70%, 90% { 
-            transform: translateX(-10px) rotate(-5deg); 
-          }
-          20%, 40%, 60%, 80% { 
-            transform: translateX(10px) rotate(5deg); 
-          }
-        }
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
+        <div className="grid lg:grid-cols-2 gap-12 xl:gap-24 items-center">
+          
+          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-10 duration-700">
+            <div className="flex flex-wrap gap-3">
+              <TrustBadge icon={ShieldCheck} text="Secure & Private" />
+              <TrustBadge icon={CheckCircle2} text="No Typing Needed" />
+            </div>
+            <div className="space-y-6">
+              <h2 className="text-5xl lg:text-7xl font-extrabold text-slate-900 tracking-tight">
+                Nahihirapan sa <br />
+                <span className="text-transparent bg-gradient-to-r from-[#009EFF] via-[#005BF2] to-[#66c5ff] bg-clip-text">Government Forms?</span>
+              </h2>
+              <p className="text-xl text-slate-600 max-w-lg leading-relaxed">
+                Huwag mag-alala. Nandito ang GabAian para Gab-AI-yan ka. Video call lang, parang kausap mo ang apo mo.
+              </p>
+            </div>
+            <div className="pt-6">
+              <MainActionButton onClick={handleStart} label="Magsimula Dito" subLabel="Start Video Assistance" />
+            </div>
+          </div>
 
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0px) rotate(0deg);
-            opacity: 0.3;
-          }
-          50% {
-            transform: translateY(-25px) rotate(180deg);
-            opacity: 0.5;
-          }
-        }
+          <div className="relative hidden lg:block animate-in fade-in slide-in-from-right-10 duration-1000">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-100 rounded-full blur-3xl opacity-50 mix-blend-multiply" />
+            <div className="relative bg-white rounded-[2.5rem] shadow-2xl p-8 border border-slate-200 transform rotate-1 hover:rotate-0 transition-transform duration-500">
+              <div className="bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden shadow-inner">
+                <div className="bg-white border-b px-4 py-3 flex gap-2 items-center">
+                  <div className="flex gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-red-400"></div><div className="w-2.5 h-2.5 rounded-full bg-yellow-400"></div><div className="w-2.5 h-2.5 rounded-full bg-green-400"></div></div>
+                  <div className="bg-slate-100 rounded-md px-3 py-1 text-[10px] text-slate-400 flex-1 ml-2 font-mono text-center">https://www.passport.gov.ph/appointment</div>
+                </div>
+                <div className="p-6 space-y-4 relative">
+                   <div className="h-4 bg-slate-200 rounded w-1/3"></div>
+                   <div className="h-10 bg-white border border-slate-200 rounded shadow-sm"></div>
+                   <div className="h-4 bg-slate-200 rounded w-1/4 mt-4"></div>
+                   <div className="h-24 bg-white border border-slate-200 rounded shadow-sm"></div>
+                   <div className="absolute top-16 right-8 w-12 h-12 rounded-full border-4 border-red-500 opacity-60 animate-ping"></div>
+                </div>
+              </div>
+              <div className="absolute -bottom-6 -left-10 bg-slate-900 text-white p-5 rounded-2xl shadow-xl max-w-xs animate-bounce" style={{ animationDuration: '4s' }}>
+                <div className="flex gap-2 mb-2 items-center"><div className="w-2 h-2 bg-green-400 rounded-full"></div><span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Agora AI Agent</span></div>
+                <p className="font-medium text-lg leading-tight">"Nakikita ko na. Diyan po sa <b>Address Field</b> ilalagay ang barangay."</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        .animate-float {
-          animation: float 8s ease-in-out infinite;
-        }
-      `}</style>
+        <div className="mt-32 grid md:grid-cols-3 gap-6">
+          <FeatureCard icon={Phone} delay="delay-0" title="Kausapin ang AI" desc="Just talk naturally." />
+          <FeatureCard icon={FileText} delay="delay-100" title="Tulong sa Forms" desc="Step-by-step guidance." />
+          <FeatureCard icon={Video} delay="delay-200" title="See What You See" desc="We see what you see." />
+        </div>
+      </main>
+
+      <footer className="border-t border-slate-200 py-12 mt-20 bg-white">
+        <div className="flex max-w-7xl mx-auto px-4 text-center justify-center">
+          <p className="text-slate-900 font-regular mb-2">© 2025 GabAian. Powered by Agora. All rights reserved.</p>
+
+        </div>
+      </footer>
     </div>
   );
 }
